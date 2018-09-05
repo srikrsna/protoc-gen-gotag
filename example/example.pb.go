@@ -6,7 +6,7 @@ package example
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import _ "tagger"
+import _ "github.com/srikrsna/protoc-gen-gotag/tagger"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
