@@ -13,4 +13,9 @@ proto:
 	--go_out=:. example/example.proto
 
 install:
-	go install .	
+	go install .
+
+gen-tag:
+	protoc -I /usr/local/include \
+	-I ${LOCAL_PATH} \
+	--go_out=paths=source_relative:. tagger/tagger.proto

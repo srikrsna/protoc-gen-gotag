@@ -19,16 +19,53 @@ func newTagExtractor(d pgs.DebuggerCommon) *tagExtractor {
 	return v
 }
 
+func (v *tagExtractor) VisitOneOf(o pgs.OneOf) (pgs.Visitor, error) {
+	var tval string
+	ok, err := o.Extension(tagger.E_Tag, &tval)
+	if err != nil {
+		return nil, err
+	}
+
+	if !ok {
+		return v, nil
+	}
+
+	tags, err := structtag.Parse(tval)
+	if err != nil {
+		return nil, err
+	}
+
+	msgName := o.Message().Name().PGGUpperCamelCase().String()
+
+	if v.tags[msgName] == nil {
+		v.tags[msgName] = map[string]*structtag.Tags{}
+	}
+
+	v.tags[msgName][o.Name().PGGUpperCamelCase().String()] = tags
+
+	return v, nil
+}
+
 func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 	var tval string
-	if ok, err := f.Extension(tagger.E_Tags, &tval); !ok || err != nil {
-		v.Fail("tagger extension not found or malformed")
+	ok, err := f.Extension(tagger.E_Tags, &tval)
+	if err != nil {
+		return nil, err
+	}
+
+	if !ok {
+		return v, nil
 	}
 
 	tags, err := structtag.Parse(tval)
 	v.CheckErr(err)
 
 	msgName := f.Message().Name().PGGUpperCamelCase().String()
+
+	if f.InOneOf() {
+		msgName = f.Message().Name().PGGUpperCamelCase().String() + "_" + f.Name().PGGUpperCamelCase().String()
+	}
+
 	if v.tags[msgName] == nil {
 		v.tags[msgName] = map[string]*structtag.Tags{}
 	}

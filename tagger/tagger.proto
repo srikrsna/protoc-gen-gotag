@@ -11,3 +11,8 @@ extend google.protobuf.FieldOptions {
     // Multiple Tags can be spcified.
     string tags = 847939;
 }
+
+extend google.protobuf.OneofOptions {
+    // Multiple Tags can be spcified.
+    string tag = 847939;
+}
