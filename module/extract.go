@@ -75,7 +75,7 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 	return v, nil
 }
 
-func (v *tagExtractor) Extract(f pgs.File) map[string]map[string]*structtag.Tags {
+func (v *tagExtractor) Extract(f pgs.File) StructTags {
 	v.tags = map[string]map[string]*structtag.Tags{}
 
 	v.CheckErr(pgs.Walk(v, f))
