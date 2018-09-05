@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package example;
+
+import "tagger/tagger.proto";
+
+message Example {
+    string with_new_tags = 1 [(tagger.tags) = "graphql:\"withNewTags,optional\"" ];
+    string with_new_multiple = 2 [(tagger.tags) = "graphql:\"withNewTags,optional\" xml:\"multi,omitempty\"" ];
+    
+    string replace_default = 3 [(tagger.tags) = "json:\"replacePrevious\""] ; 
+}
+
+message SecondMessage {
+    string with_new_tags = 1 [(tagger.tags) = "graphql:\"withNewTags,optional\"" ];
+    string with_new_multiple = 2 [(tagger.tags) = "graphql:\"withNewTags,optional\" xml:\"multi,omitempty\"" ];
+    
+    string replace_default = 3 [(tagger.tags) = "json:\"replacePrevious\""] ; 
+}
