@@ -27,9 +27,9 @@ type Example struct {
 	//	*Example_A
 	//	*Example_BJk
 	OneOf                isExample_OneOf `protobuf_oneof:"one_of" graphql:"withNewTags,optional"`
-	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
-	XXX_unrecognized     []byte          `json:"-"`
-	XXX_sizecache        int32           `json:"-"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-" graphql:"-" bson:"-"`
+	XXX_unrecognized     []byte          `json:"-" graphql:"-" bson:"-"`
+	XXX_sizecache        int32           `json:"-" graphql:"-" bson:"-"`
 }
 
 func (m *Example) Reset()         { *m = Example{} }
@@ -181,9 +181,9 @@ type SecondMessage struct {
 	WithNewTags          string   `protobuf:"bytes,1,opt,name=with_new_tags,json=withNewTags,proto3" json:"with_new_tags,omitempty" graphql:"withNewTags,optional"`
 	WithNewMultiple      string   `protobuf:"bytes,2,opt,name=with_new_multiple,json=withNewMultiple,proto3" json:"with_new_multiple,omitempty" graphql:"withNewTags,optional" xml:"multi,omitempty"`
 	ReplaceDefault       string   `protobuf:"bytes,3,opt,name=replace_default,json=replaceDefault,proto3" json:"replacePrevious"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-" graphql:"-" bson:"-"`
+	XXX_unrecognized     []byte   `json:"-" graphql:"-" bson:"-"`
+	XXX_sizecache        int32    `json:"-" graphql:"-" bson:"-"`
 }
 
 func (m *SecondMessage) Reset()         { *m = SecondMessage{} }
