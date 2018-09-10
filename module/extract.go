@@ -21,7 +21,7 @@ func newTagExtractor(d pgs.DebuggerCommon) *tagExtractor {
 
 func (v *tagExtractor) VisitOneOf(o pgs.OneOf) (pgs.Visitor, error) {
 	var tval string
-	ok, err := o.Extension(tagger.E_Tag, &tval)
+	ok, err := o.Extension(tagger.E_OneofTags, &tval)
 	if err != nil {
 		return nil, err
 	}

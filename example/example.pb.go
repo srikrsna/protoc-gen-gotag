@@ -36,7 +36,7 @@ func (m *Example) Reset()         { *m = Example{} }
 func (m *Example) String() string { return proto.CompactTextString(m) }
 func (*Example) ProtoMessage()    {}
 func (*Example) Descriptor() ([]byte, []int) {
-	return fileDescriptor_example_29b7f57ba2a3b607, []int{0}
+	return fileDescriptor_example_3ca121c20107e13d, []int{0}
 }
 func (m *Example) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Example.Unmarshal(m, b)
@@ -190,7 +190,7 @@ func (m *SecondMessage) Reset()         { *m = SecondMessage{} }
 func (m *SecondMessage) String() string { return proto.CompactTextString(m) }
 func (*SecondMessage) ProtoMessage()    {}
 func (*SecondMessage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_example_29b7f57ba2a3b607, []int{1}
+	return fileDescriptor_example_3ca121c20107e13d, []int{1}
 }
 func (m *SecondMessage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SecondMessage.Unmarshal(m, b)
@@ -236,9 +236,9 @@ func init() {
 	proto.RegisterType((*SecondMessage)(nil), "example.SecondMessage")
 }
 
-func init() { proto.RegisterFile("example/example.proto", fileDescriptor_example_29b7f57ba2a3b607) }
+func init() { proto.RegisterFile("example/example.proto", fileDescriptor_example_3ca121c20107e13d) }
 
-var fileDescriptor_example_29b7f57ba2a3b607 = []byte{
+var fileDescriptor_example_3ca121c20107e13d = []byte{
 	// 319 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe4, 0x92, 0xc1, 0x4a, 0x33, 0x31,
 	0x10, 0xc7, 0xbf, 0x6d, 0xbf, 0xb6, 0x9a, 0x52, 0xab, 0x11, 0x65, 0x51, 0x94, 0x12, 0x11, 0x7a,

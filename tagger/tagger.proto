@@ -14,5 +14,5 @@ extend google.protobuf.FieldOptions {
 
 extend google.protobuf.OneofOptions {
     // Multiple Tags can be spcified.
-    string tag = 847939;
+    string oneof_tags = 847939;
 }

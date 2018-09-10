@@ -11,7 +11,7 @@ message Example {
     string replace_default = 3 [(tagger.tags) = "json:\"replacePrevious\""] ; 
 
     oneof one_of {
-        option (tagger.tag) = "graphql:\"withNewTags,optional\"";
+        option (tagger.oneof_tags) = "graphql:\"withNewTags,optional\"";
         string a = 5 [(tagger.tags) = "json:\"A\""];
         int32 b_jk = 6 [(tagger.tags) = "json:\"b_Jk\""];
     }
