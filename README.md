@@ -1,6 +1,7 @@
 # protoc-gen-gotag (PGGT)
 
-PGGT is a protoc plugin used to add/replace struct tags on generated protobuf messages. get  it using ```go get github.com/srikrsna/protoc-gen-gotag ```It supports the following features,
+PGGT is a protoc plugin used to add/replace struct tags on generated protobuf messages.
+Get  it using ```go get github.com/srikrsna/protoc-gen-gotag ```It supports the following features,
 
 ## Add/Replace Tags
 
@@ -52,7 +53,7 @@ It is very useful to ignore XXX* fields in protobuf generated messages. The go p
     	--gotag_out=xxx="graphql+\"-\" bson+\"-\"":. example/example.proto
 ```
 
-###Note
+### Note
  
  This should always run after protocol buffer compiler has run. The command such as the one below will fail/produce unexpected results.
  ```bash
