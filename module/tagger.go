@@ -8,21 +8,28 @@ import (
 
 	"github.com/fatih/structtag"
 	"github.com/lyft/protoc-gen-star"
+	pgsgo "github.com/lyft/protoc-gen-star/lang/go"
 )
 
 type mod struct {
 	*pgs.ModuleBase
+	pgsgo.Context
 }
 
 func New() pgs.Module {
-	return &mod{&pgs.ModuleBase{}}
+	return &mod{ModuleBase: &pgs.ModuleBase{}}
+}
+
+func (m *mod) InitContext(c pgs.BuildContext) {
+	m.ModuleBase.InitContext(c)
+	m.Context = pgsgo.InitContext(c.Parameters())
 }
 
 func (mod) Name() string {
 	return "gotag"
 }
 
-func (m mod) Execute(target pgs.Package, packages map[string]pgs.Package) []pgs.Artifact {
+func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Package) []pgs.Artifact {
 
 	xtv := m.Parameters().Str("xxx")
 
@@ -32,12 +39,12 @@ func (m mod) Execute(target pgs.Package, packages map[string]pgs.Package) []pgs.
 	m.CheckErr(err)
 
 	extractor := newTagExtractor(m)
-	for _, f := range target.Files() {
+	for _, f := range targets {
 		tags := extractor.Extract(f)
 
 		tags.AddTagsToXXXFields(xt)
 
-		gfname := f.OutputPath().SetExt(".go").String()
+		gfname := m.Context.OutputPath(f).SetExt(".go").String()
 
 		fs := token.NewFileSet()
 		fn, err := parser.ParseFile(fs, gfname, nil, parser.ParseComments)

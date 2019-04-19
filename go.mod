@@ -1,14 +1,13 @@
 module github.com/srikrsna/protoc-gen-gotag
 
 require (
-	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/structtag v1.0.0
-	github.com/golang/protobuf v1.2.0
-	github.com/lyft/protoc-gen-star v0.3.7
-	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/spf13/afero v1.1.1 // indirect
-	github.com/stretchr/testify v1.2.2 // indirect
-	golang.org/x/net v0.0.0-20180826012351-8a410e7b638d // indirect
-	golang.org/x/sync v0.0.0-20180314180146-1d60e4601c6f // indirect
-	golang.org/x/text v0.3.0 // indirect
+	github.com/golang/protobuf v1.3.1
+	github.com/lyft/protoc-gen-star v0.4.9
+	github.com/spf13/afero v1.2.2 // indirect
+	github.com/stretchr/objx v0.2.0 // indirect
+	golang.org/x/crypto v0.0.0-20190418165655-df01cb2cc480 // indirect
+	golang.org/x/net v0.0.0-20190419010253-1f3472d942ba // indirect
+	golang.org/x/sync v0.0.0-20190412183630-56d357773e84 // indirect
+	golang.org/x/sys v0.0.0-20190418153312-f0ce4c0180be // indirect
 )
