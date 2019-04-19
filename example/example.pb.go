@@ -3,10 +3,12 @@
 
 package example
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import _ "github.com/srikrsna/protoc-gen-gotag/tagger"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	_ "github.com/srikrsna/protoc-gen-gotag/tagger"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -17,7 +19,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type Example struct {
 	WithNewTags     string `protobuf:"bytes,1,opt,name=with_new_tags,json=withNewTags,proto3" json:"with_new_tags,omitempty" graphql:"withNewTags,optional"`
@@ -36,16 +38,17 @@ func (m *Example) Reset()         { *m = Example{} }
 func (m *Example) String() string { return proto.CompactTextString(m) }
 func (*Example) ProtoMessage()    {}
 func (*Example) Descriptor() ([]byte, []int) {
-	return fileDescriptor_example_3ca121c20107e13d, []int{0}
+	return fileDescriptor_1c78cffa5d645ba4, []int{0}
 }
+
 func (m *Example) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Example.Unmarshal(m, b)
 }
 func (m *Example) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Example.Marshal(b, m, deterministic)
 }
-func (dst *Example) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Example.Merge(dst, src)
+func (m *Example) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Example.Merge(m, src)
 }
 func (m *Example) XXX_Size() int {
 	return xxx_messageInfo_Example.Size(m)
@@ -55,27 +58,6 @@ func (m *Example) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_Example proto.InternalMessageInfo
-
-type isExample_OneOf interface {
-	isExample_OneOf()
-}
-
-type Example_A struct {
-	A string `protobuf:"bytes,5,opt,name=a,proto3,oneof" json:"A"`
-}
-type Example_BJk struct {
-	BJk int32 `protobuf:"varint,6,opt,name=b_jk,json=bJk,proto3,oneof" json:"b_Jk"`
-}
-
-func (*Example_A) isExample_OneOf()   {}
-func (*Example_BJk) isExample_OneOf() {}
-
-func (m *Example) GetOneOf() isExample_OneOf {
-	if m != nil {
-		return m.OneOf
-	}
-	return nil
-}
 
 func (m *Example) GetWithNewTags() string {
 	if m != nil {
@@ -98,6 +80,29 @@ func (m *Example) GetReplaceDefault() string {
 	return ""
 }
 
+type isExample_OneOf interface {
+	isExample_OneOf()
+}
+
+type Example_A struct {
+	A string `protobuf:"bytes,5,opt,name=a,proto3,oneof" json:"A"`
+}
+
+type Example_BJk struct {
+	BJk int32 `protobuf:"varint,6,opt,name=b_jk,json=bJk,proto3,oneof" json:"b_Jk"`
+}
+
+func (*Example_A) isExample_OneOf() {}
+
+func (*Example_BJk) isExample_OneOf() {}
+
+func (m *Example) GetOneOf() isExample_OneOf {
+	if m != nil {
+		return m.OneOf
+	}
+	return nil
+}
+
 func (m *Example) GetA() string {
 	if x, ok := m.GetOneOf().(*Example_A); ok {
 		return x.A
@@ -112,69 +117,12 @@ func (m *Example) GetBJk() int32 {
 	return 0
 }
 
-// XXX_OneofFuncs is for the internal use of the proto package.
-func (*Example) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _Example_OneofMarshaler, _Example_OneofUnmarshaler, _Example_OneofSizer, []interface{}{
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*Example) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
 		(*Example_A)(nil),
 		(*Example_BJk)(nil),
 	}
-}
-
-func _Example_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
-	m := msg.(*Example)
-	// one_of
-	switch x := m.OneOf.(type) {
-	case *Example_A:
-		b.EncodeVarint(5<<3 | proto.WireBytes)
-		b.EncodeStringBytes(x.A)
-	case *Example_BJk:
-		b.EncodeVarint(6<<3 | proto.WireVarint)
-		b.EncodeVarint(uint64(x.BJk))
-	case nil:
-	default:
-		return fmt.Errorf("Example.OneOf has unexpected type %T", x)
-	}
-	return nil
-}
-
-func _Example_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
-	m := msg.(*Example)
-	switch tag {
-	case 5: // one_of.a
-		if wire != proto.WireBytes {
-			return true, proto.ErrInternalBadWireType
-		}
-		x, err := b.DecodeStringBytes()
-		m.OneOf = &Example_A{x}
-		return true, err
-	case 6: // one_of.b_jk
-		if wire != proto.WireVarint {
-			return true, proto.ErrInternalBadWireType
-		}
-		x, err := b.DecodeVarint()
-		m.OneOf = &Example_BJk{int32(x)}
-		return true, err
-	default:
-		return false, nil
-	}
-}
-
-func _Example_OneofSizer(msg proto.Message) (n int) {
-	m := msg.(*Example)
-	// one_of
-	switch x := m.OneOf.(type) {
-	case *Example_A:
-		n += 1 // tag and wire
-		n += proto.SizeVarint(uint64(len(x.A)))
-		n += len(x.A)
-	case *Example_BJk:
-		n += 1 // tag and wire
-		n += proto.SizeVarint(uint64(x.BJk))
-	case nil:
-	default:
-		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
-	}
-	return n
 }
 
 type SecondMessage struct {
@@ -190,16 +138,17 @@ func (m *SecondMessage) Reset()         { *m = SecondMessage{} }
 func (m *SecondMessage) String() string { return proto.CompactTextString(m) }
 func (*SecondMessage) ProtoMessage()    {}
 func (*SecondMessage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_example_3ca121c20107e13d, []int{1}
+	return fileDescriptor_1c78cffa5d645ba4, []int{1}
 }
+
 func (m *SecondMessage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SecondMessage.Unmarshal(m, b)
 }
 func (m *SecondMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SecondMessage.Marshal(b, m, deterministic)
 }
-func (dst *SecondMessage) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SecondMessage.Merge(dst, src)
+func (m *SecondMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SecondMessage.Merge(m, src)
 }
 func (m *SecondMessage) XXX_Size() int {
 	return xxx_messageInfo_SecondMessage.Size(m)
@@ -236,9 +185,9 @@ func init() {
 	proto.RegisterType((*SecondMessage)(nil), "example.SecondMessage")
 }
 
-func init() { proto.RegisterFile("example/example.proto", fileDescriptor_example_3ca121c20107e13d) }
+func init() { proto.RegisterFile("example/example.proto", fileDescriptor_1c78cffa5d645ba4) }
 
-var fileDescriptor_example_3ca121c20107e13d = []byte{
+var fileDescriptor_1c78cffa5d645ba4 = []byte{
 	// 319 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe4, 0x92, 0xc1, 0x4a, 0x33, 0x31,
 	0x10, 0xc7, 0xbf, 0x6d, 0xbf, 0xb6, 0x9a, 0x52, 0xab, 0x11, 0x65, 0x51, 0x94, 0x12, 0x11, 0x7a,
