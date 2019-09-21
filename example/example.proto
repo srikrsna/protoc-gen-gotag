@@ -23,3 +23,12 @@ message SecondMessage {
     
     string replace_default = 3 [(tagger.tags) = "json:\"replacePrevious\""] ; 
 }
+
+message ThirdExample {
+    message InnerExample {
+        string id = 1 [(tagger.tags) = "json:\"yes\""];
+        int32 yes = 2 [(tagger.tags) = "json:\"id\""];
+    }
+
+    InnerExample inner_example = 1 [(tagger.tags) = "json:\"inner\""];
+}

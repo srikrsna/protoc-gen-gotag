@@ -2,19 +2,21 @@ package module
 
 import (
 	"github.com/fatih/structtag"
-	"github.com/lyft/protoc-gen-star"
+	pgs "github.com/lyft/protoc-gen-star"
+	pgsgo "github.com/lyft/protoc-gen-star/lang/go"
 	"github.com/srikrsna/protoc-gen-gotag/tagger"
 )
 
 type tagExtractor struct {
 	pgs.Visitor
 	pgs.DebuggerCommon
+	pgsgo.Context
 
 	tags map[string]map[string]*structtag.Tags
 }
 
-func newTagExtractor(d pgs.DebuggerCommon) *tagExtractor {
-	v := &tagExtractor{DebuggerCommon: d}
+func newTagExtractor(d pgs.DebuggerCommon, ctx pgsgo.Context) *tagExtractor {
+	v := &tagExtractor{DebuggerCommon: d, Context: ctx}
 	v.Visitor = pgs.PassThroughVisitor(v)
 	return v
 }
@@ -35,13 +37,13 @@ func (v *tagExtractor) VisitOneOf(o pgs.OneOf) (pgs.Visitor, error) {
 		return nil, err
 	}
 
-	msgName := o.Message().Name().UpperCamelCase().String()
+	msgName := v.Context.Name(o.Message()).String()
 
 	if v.tags[msgName] == nil {
 		v.tags[msgName] = map[string]*structtag.Tags{}
 	}
 
-	v.tags[msgName][o.Name().UpperCamelCase().String()] = tags
+	v.tags[msgName][v.Context.Name(o).String()] = tags
 
 	return v, nil
 }
@@ -60,7 +62,7 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 	tags, err := structtag.Parse(tval)
 	v.CheckErr(err)
 
-	msgName := f.Message().Name().UpperCamelCase().String()
+	msgName := v.Context.Name(f.Message()).String()
 
 	if f.InOneOf() {
 		msgName = f.Message().Name().UpperCamelCase().String() + "_" + f.Name().UpperCamelCase().String()
@@ -70,7 +72,7 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 		v.tags[msgName] = map[string]*structtag.Tags{}
 	}
 
-	v.tags[msgName][f.Name().UpperCamelCase().String()] = tags
+	v.tags[msgName][v.Context.Name(f).String()] = tags
 
 	return v, nil
 }

@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/fatih/structtag"
-	"github.com/lyft/protoc-gen-star"
+	pgs "github.com/lyft/protoc-gen-star"
 	pgsgo "github.com/lyft/protoc-gen-star/lang/go"
 )
 
@@ -38,7 +38,7 @@ func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packag
 	xt, err := structtag.Parse(xtv)
 	m.CheckErr(err)
 
-	extractor := newTagExtractor(m)
+	extractor := newTagExtractor(m, m.Context)
 	for _, f := range targets {
 		tags := extractor.Extract(f)
 

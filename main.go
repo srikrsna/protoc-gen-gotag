@@ -8,5 +8,5 @@ import (
 )
 
 func main() {
-	pgs.Init().RegisterModule(module.New()).RegisterPostProcessor(pgsgo.GoFmt()).Render()
+	pgs.Init(pgs.DebugMode()).RegisterModule(module.New()).RegisterPostProcessor(pgsgo.GoFmt()).Render()
 }
