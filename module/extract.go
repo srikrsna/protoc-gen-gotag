@@ -28,6 +28,12 @@ func (v *tagExtractor) VisitOneOf(o pgs.OneOf) (pgs.Visitor, error) {
 		return nil, err
 	}
 
+	msgName := v.Context.Name(o.Message()).String()
+
+	if v.tags[msgName] == nil {
+		v.tags[msgName] = map[string]*structtag.Tags{}
+	}
+
 	if !ok {
 		return v, nil
 	}
@@ -35,12 +41,6 @@ func (v *tagExtractor) VisitOneOf(o pgs.OneOf) (pgs.Visitor, error) {
 	tags, err := structtag.Parse(tval)
 	if err != nil {
 		return nil, err
-	}
-
-	msgName := v.Context.Name(o.Message()).String()
-
-	if v.tags[msgName] == nil {
-		v.tags[msgName] = map[string]*structtag.Tags{}
 	}
 
 	v.tags[msgName][v.Context.Name(o).String()] = tags
@@ -55,13 +55,6 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 		return nil, err
 	}
 
-	if !ok {
-		return v, nil
-	}
-
-	tags, err := structtag.Parse(tval)
-	v.CheckErr(err)
-
 	msgName := v.Context.Name(f.Message()).String()
 
 	if f.InOneOf() {
@@ -71,6 +64,13 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 	if v.tags[msgName] == nil {
 		v.tags[msgName] = map[string]*structtag.Tags{}
 	}
+
+	if !ok {
+		return v, nil
+	}
+
+	tags, err := structtag.Parse(tval)
+	v.CheckErr(err)
 
 	v.tags[msgName][v.Context.Name(f).String()] = tags
 
