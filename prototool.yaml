@@ -1,0 +1,17 @@
+protoc:
+  version: 3.8.0
+# Code generation directives.
+generate:
+  # The list of plugins.
+  go_options:
+    # The base import path. This should be the go path of the prototool.yaml file.
+    # This is required if you have any go plugins.
+    import_path: github.com/srikrsna/protoc-gen-gotag
+  plugins:
+    - name: go
+      type: go
+      output: .
+    - name: gotag
+      type: go
+      output: .
+      flags: 'xxx=graphql+"-" bson+"-"'
