@@ -66,13 +66,10 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 		v.tags[msgName] = map[string]*structtag.Tags{}
 	}
 
-	if !ok && len(v.autoAddTags) == 0 {
-		return v, nil
-	}
 
 	tags := structtag.Tags{}
-
-	if !ok {
+	tagLen := len(v.autoAddTags)
+	if tagLen > 1 || (tagLen == 1 && v.autoAddTags[0] != "") {
 		val := ToSnakeCase(v.Context.Name(f).String())
 		for _, tag := range v.autoAddTags {
 			t := structtag.Tag{
@@ -81,17 +78,21 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 				Options: nil,
 			}
 			if err := tags.Set(&t); err != nil {
-				log.Fatal(err)
+				log.Fatal("Error without tag: ", err)
 			}
 		}
+	}
+
+	if !ok {
 		v.tags[msgName][v.Context.Name(f).String()] = &tags
+		return v, nil
 	}
 
 	newTags, err := structtag.Parse(tval)
 	v.CheckErr(err)
 	for _, tag := range newTags.Tags() {
 		if err := tags.Set(tag); err != nil {
-			log.Fatal(err)
+			log.Fatal("Error with tag: ", err)
 		}
 	}
 
