@@ -5,6 +5,7 @@ import (
 	pgs "github.com/lyft/protoc-gen-star"
 	pgsgo "github.com/lyft/protoc-gen-star/lang/go"
 	"github.com/srikrsna/protoc-gen-gotag/tagger"
+	"log"
 )
 
 type tagExtractor struct {
@@ -13,6 +14,7 @@ type tagExtractor struct {
 	pgsgo.Context
 
 	tags map[string]map[string]*structtag.Tags
+	autoAddTags []string
 }
 
 func newTagExtractor(d pgs.DebuggerCommon, ctx pgsgo.Context) *tagExtractor {
@@ -56,7 +58,6 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 	}
 
 	msgName := v.Context.Name(f.Message()).String()
-
 	if f.InOneOf() {
 		msgName = f.Message().Name().UpperCamelCase().String() + "_" + f.Name().UpperCamelCase().String()
 	}
@@ -65,14 +66,36 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 		v.tags[msgName] = map[string]*structtag.Tags{}
 	}
 
-	if !ok {
+	if !ok && len(v.autoAddTags) == 0 {
 		return v, nil
 	}
 
-	tags, err := structtag.Parse(tval)
-	v.CheckErr(err)
+	tags := structtag.Tags{}
 
-	v.tags[msgName][v.Context.Name(f).String()] = tags
+	if !ok {
+		val := ToSnakeCase(v.Context.Name(f).String())
+		for _, tag := range v.autoAddTags {
+			t := structtag.Tag{
+				Key:     tag,
+				Name:    val,
+				Options: nil,
+			}
+			if err := tags.Set(&t); err != nil {
+				log.Fatal(err)
+			}
+		}
+		v.tags[msgName][v.Context.Name(f).String()] = &tags
+	}
+
+	newTags, err := structtag.Parse(tval)
+	v.CheckErr(err)
+	for _, tag := range newTags.Tags() {
+		if err := tags.Set(tag); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	v.tags[msgName][v.Context.Name(f).String()] = &tags
 
 	return v, nil
 }
