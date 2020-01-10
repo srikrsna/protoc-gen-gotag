@@ -4,7 +4,7 @@ import (
 	"github.com/fatih/structtag"
 	pgs "github.com/lyft/protoc-gen-star"
 	pgsgo "github.com/lyft/protoc-gen-star/lang/go"
-	"github.com/srikrsna/protoc-gen-gotag/tagger"
+	"github.com/taankyou/protoc-gen-gotag/tagger"
 	"log"
 )
 
