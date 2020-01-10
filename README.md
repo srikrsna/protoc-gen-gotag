@@ -1,7 +1,8 @@
 # protoc-gen-gotag (PGGT)
 
 PGGT is a protoc plugin used to add/replace struct tags on generated protobuf messages.
-Get  it using ```go get github.com/srikrsna/protoc-gen-gotag ```It supports the following features,
+It is forked from: ``srikrsna/protoc-gen-gotag````to add some nice tag features.
+Get  it using ```go get github.com/taankyou/protoc-gen-gotag ``` It supports the following features,
 
 ## Add/Replace Tags
 
@@ -42,6 +43,16 @@ Then struct tags can be added by running this command **after** the regular prot
 ```
 
 In the above example tags like graphql and xml will be added whereas existing tags such as json are replaced with the supplied values. 
+
+## Auto add tags on field
+
+Automatically add custom tags to message field using the same format as JSON tag. It will compile the tag as ```tag:"snaked_key_name"```.
+
+```bash
+    protoc -I /usr/local/include \
+    	-I . \
+    	--gotag_out=auto="form+db":. example/example.proto
+```
 
 ## Add tags to XXX* fields
 
