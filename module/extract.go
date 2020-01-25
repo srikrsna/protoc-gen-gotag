@@ -5,7 +5,6 @@ import (
 	pgs "github.com/lyft/protoc-gen-star"
 	pgsgo "github.com/lyft/protoc-gen-star/lang/go"
 	"github.com/taankyou/protoc-gen-gotag/tagger"
-	"log"
 )
 
 type tagExtractor struct {
@@ -70,15 +69,15 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 	tags := structtag.Tags{}
 	tagLen := len(v.autoAddTags)
 	if tagLen > 1 || (tagLen == 1 && v.autoAddTags[0] != "") {
-		val := ToSnakeCase(v.Context.Name(f).String())
+		val := pgs.Name.LowerSnakeCase(v.Context.Name(f).String())
 		for _, tag := range v.autoAddTags {
 			t := structtag.Tag{
 				Key:     tag,
-				Name:    val,
+				Name:    val.String(),
 				Options: nil,
 			}
 			if err := tags.Set(&t); err != nil {
-				log.Fatal("Error without tag: ", err)
+				pgs.DebuggerCommon.Fail("Error without tag", err)
 			}
 		}
 	}
@@ -92,7 +91,7 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 	v.CheckErr(err)
 	for _, tag := range newTags.Tags() {
 		if err := tags.Set(tag); err != nil {
-			log.Fatal("Error with tag: ", err)
+			pgs.DebuggerCommon.Fail("Error with tag: ", err)
 		}
 	}
 
