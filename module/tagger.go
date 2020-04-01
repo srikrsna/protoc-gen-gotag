@@ -4,6 +4,7 @@ import (
 	"go/parser"
 	"go/printer"
 	"go/token"
+	"path/filepath"
 	"strings"
 
 	"github.com/fatih/structtag"
@@ -46,8 +47,14 @@ func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packag
 
 		gfname := m.Context.OutputPath(f).SetExt(".go").String()
 
+		outdir := m.Parameters().Str("outdir")
+		filename := gfname
+		if outdir != "" {
+			filename = filepath.Join(outdir, gfname)
+		}
+
 		fs := token.NewFileSet()
-		fn, err := parser.ParseFile(fs, gfname, nil, parser.ParseComments)
+		fn, err := parser.ParseFile(fs, filename, nil, parser.ParseComments)
 		m.CheckErr(err)
 
 		m.CheckErr(Retag(fn, tags))
