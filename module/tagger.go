@@ -41,10 +41,7 @@ func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packag
 	autoTag := m.Parameters().Str("auto")
 	autoTags := strings.Split(autoTag, "+")
 
-
-	extractor := newTagExtractor(m, m.Context)
-
-	extractor.autoAddTags = autoTags
+	extractor := newTagExtractor(m, m.Context, autoTags)
 
 	for _, f := range targets {
 		tags := extractor.Extract(f)
