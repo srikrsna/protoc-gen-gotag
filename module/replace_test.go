@@ -12,6 +12,7 @@ import (
 	"testing"
 
 	"github.com/fatih/structtag"
+
 	"github.com/srikrsna/protoc-gen-gotag/module"
 )
 

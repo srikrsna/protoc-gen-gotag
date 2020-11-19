@@ -43,6 +43,29 @@ Then struct tags can be added by running this command **after** the regular prot
 
 In the above example tags like graphql and xml will be added whereas existing tags such as json are replaced with the supplied values. 
 
+## Auto add tags on field
+
+Automatically add custom tags to message field using provided transformer.
+It will compile the tag as ```tag:"snaked_key_name"``` by default if no transformer is being provide.
+To provide transformer, use: ```tagName-as-transformer``` instruction when running `gotag`
+
+```bash
+    protoc -I /usr/local/include \
+    	-I . \
+    	--gotag_out=auto="form+db-as-camel":. example/example.proto
+```
+
+Supported transformers:
+
+| Keys                                                     | Action                            | Ex                  | 
+| -------------------------------------------------------- | --------------------------------- | ------------------- |
+| "lower_snake", "lower_snake_case", "snake", "snake_case" | Make lower  snake case key        | someKey -> some_key |
+| "upper_snake", "upper_snake_case"                        | Make upper snake case key         | someKey -> Some_key |
+| "lower_camel", "lower_camel_case", "camel", "camel_case" | Make lower camel case key         | someKey -> someKey  |
+| "upper_camel", "upper_camel_case"                        | Make upper camel case key         | someKey -> SomeKey  |
+| "dot_notation", "dot", "lower_dot_notation", "lower_dot" | Make lower cased dot notation key | someKey -> some.key |
+| "upper_dot", "upper_dot_notation"                        | Make upper cased dot notation key | someKey -> Some.Key | 
+
 ## Add tags to XXX* fields
 
 It is very useful to ignore XXX* fields in protobuf generated messages. The go protocol buffer compiler adds ```json:"-"``` tag to all XXX* fields. Additional tags can be added to these fields using the 'xxx' option of PGGT. It can be done like this. All '+' characters will be replaced with ':'.
