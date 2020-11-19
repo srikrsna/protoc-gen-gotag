@@ -55,6 +55,8 @@ To provide transformer, use: ```tagName-as-transformer``` instruction when runni
     	--gotag_out=auto="form+db-as-camel":. example/example.proto
 ```
 
+The above command will add two addtional tags (form and db) for each field. The form tag will be lower_snake_case and db tag will be lowerCamelCase
+
 Supported transformers:
 
 | Keys                                                     | Action                            | Ex                  | 
