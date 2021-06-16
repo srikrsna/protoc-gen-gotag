@@ -40,7 +40,10 @@ func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packag
 	m.CheckErr(err)
 
 	autoTag := m.Parameters().Str("auto")
-	autoTags := strings.Split(autoTag, "+")
+	var autoTags []string
+	if autoTag != "" {
+		autoTags = strings.Split(autoTag, "+")
+	}
 
 	extractor := newTagExtractor(m, m.Context, autoTags)
 
