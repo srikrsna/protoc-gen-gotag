@@ -78,6 +78,16 @@ It is very useful to ignore XXX* fields in protobuf generated messages. The go p
     	--gotag_out=xxx="graphql+\"-\" bson+\"-\"":. example/example.proto
 ```
 
+## Output to a directory other than the current directory
+
+When outputting to a directory other than the current directory, you will need to pass the output path twice using
+the "outdir" parameter.  If you experience any `no such file or directory`, errors, try adding the "outdir" flag.
+ ```bash
+    protoc -I /usr/local/include \
+        	-I ./pkg \
+        	--gotag_out=outdir="./pkg":./pkg example/example.proto
+``` 
+
 ### Note
  
  This should always run after protocol buffer compiler has run. The command such as the one below will fail/produce unexpected results.
