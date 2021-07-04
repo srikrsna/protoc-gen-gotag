@@ -83,7 +83,7 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 	}
 
 	msgName := v.Context.Name(f.Message()).String()
-	if f.InOneOf() {
+	if f.InOneOf() && !f.Descriptor().GetProto3Optional() {
 		msgName = f.Message().Name().UpperCamelCase().String() + "_" + f.Name().UpperCamelCase().String()
 	}
 

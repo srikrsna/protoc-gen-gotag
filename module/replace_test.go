@@ -27,7 +27,7 @@ func TestRetag(t *testing.T) {
 	}
 
 	module.Retag(n, map[string]map[string]*structtag.Tags{
-		"Simple": map[string]*structtag.Tags{
+		"Simple": {
 			"Single":   tagMust(structtag.Parse(`sql:"-,omitempty"`)),
 			"Multiple": tagMust(structtag.Parse(`xml:"-,omitempty"`)),
 			"None":     tagMust(structtag.Parse(`json:"none,omitempty"`)),

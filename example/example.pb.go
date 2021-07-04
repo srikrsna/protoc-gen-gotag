@@ -28,7 +28,7 @@ type Example struct {
 
 	WithNewTags     string  `protobuf:"bytes,1,opt,name=with_new_tags,json=withNewTags,proto3" json:"with_new_tags,omitempty" graphql:"withNewTags,optional"`
 	WithNewMultiple string  `protobuf:"bytes,2,opt,name=with_new_multiple,json=withNewMultiple,proto3" json:"with_new_multiple,omitempty" graphql:"withNewTags,optional" xml:"multi,omitempty"`
-	ReplaceDefault  *string `protobuf:"bytes,3,opt,name=replace_default,json=replaceDefault,proto3,oneof" json:"replace_default,omitempty"`
+	ReplaceDefault  *string `protobuf:"bytes,3,opt,name=replace_default,json=replaceDefault,proto3,oneof" json:"replacePrevious"`
 	// Types that are assignable to OneOf:
 	//	*Example_A
 	//	*Example_BJk

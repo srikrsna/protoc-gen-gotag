@@ -3,6 +3,9 @@ plugins:
   - name: go
     out: .
     opt: paths=source_relative
+  - name: debug
+    out: .
+    opt: ./debug
   - name: gotag
     out: .
     opt: paths=source_relative,xxx=graphql+"-" bson+"-"

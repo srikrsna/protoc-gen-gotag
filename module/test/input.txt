@@ -2,6 +2,6 @@ package main
 
 type Simple struct {
 	Single   string `json:"key,option"`
-	Multiple string `json:"ke,op" xml:"ke,op"`
+	Multiple *string `json:"ke,op" xml:"ke,op"`
 	None     int32
 }
