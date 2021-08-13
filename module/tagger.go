@@ -1,6 +1,7 @@
 package module
 
 import (
+	"fmt"
 	"go/parser"
 	"go/printer"
 	"go/token"
@@ -45,6 +46,8 @@ func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packag
 		autoTags = strings.Split(autoTag, "+")
 	}
 
+	module := m.Parameters().Str("module")
+
 	extractor := newTagExtractor(m, m.Context, autoTags)
 
 	for _, f := range targets {
@@ -60,6 +63,17 @@ func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packag
 			filename = filepath.Join(outdir, gfname)
 		}
 
+		if module != "" {
+
+			filename = strings.ReplaceAll(filename, string(filepath.Separator), "/")
+			trim := module + "/"
+			if !strings.HasPrefix(filename, trim) {
+				m.Debug(fmt.Sprintf("%v: generated file does not match prefix %q", filename, module))
+				m.Exit(1)
+			}
+			filename = strings.TrimPrefix(filename, trim)
+		}
+
 		fs := token.NewFileSet()
 		fn, err := parser.ParseFile(fs, filename, nil, parser.ParseComments)
 		m.CheckErr(err)
@@ -69,7 +83,7 @@ func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packag
 		var buf strings.Builder
 		m.CheckErr(printer.Fprint(&buf, fs, fn))
 
-		m.OverwriteGeneratorFile(gfname, buf.String())
+		m.OverwriteGeneratorFile(filename, buf.String())
 	}
 
 	return m.Artifacts()
