@@ -1,0 +1,5 @@
+version: v1beta1
+plugins:  
+  - name: gotag
+    out: .
+    opt: paths=source_relative,xxx=graphql+"-" bson+"-"
