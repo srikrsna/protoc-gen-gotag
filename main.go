@@ -8,5 +8,8 @@ import (
 )
 
 func main() {
-	pgs.Init(pgs.DebugEnv("GOTAG_DEBUG")).RegisterModule(module.New()).RegisterPostProcessor(pgsgo.GoFmt()).Render()
+	pgs.Init(pgs.DebugEnv("GOTAG_DEBUG")).
+		RegisterModule(module.New()).
+		RegisterPostProcessor(pgsgo.GoFmt()).
+		Render()
 }
