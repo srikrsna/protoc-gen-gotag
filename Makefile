@@ -18,6 +18,7 @@ install:
 gen-tag:
 	buf generate
 	buf generate --template=buf.gen.tag.yaml
+	buf generate --template=buf.gen.debug.yaml --path tagger
 
 test:
 	go test ./...
