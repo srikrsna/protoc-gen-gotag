@@ -1,10 +1,12 @@
-version: v1beta1
+version: v1
 name: buf.build/srikrsna/protoc-gen-gotag
 deps:
-  - buf.build/beta/googleapis
-build:
-  roots:
-    - .
+  -  buf.build/googleapis/googleapis
+
+breaking:
+  use:
+    - FILE
+
 lint:
   use:
     - BASIC
@@ -12,9 +14,5 @@ lint:
   except:
     - ENUM_NO_ALLOW_ALIAS
     - IMPORT_NO_PUBLIC
-    - PACKAGE_AFFINITY
     - PACKAGE_DIRECTORY_MATCH
     - PACKAGE_SAME_DIRECTORY
-breaking:
-  use:
-    - FILE

@@ -16,9 +16,9 @@ install:
 	go install .
 
 gen-tag:
-	protoc -I /usr/local/include \
-	-I ${LOCAL_PATH} \
-	--go_out=paths=source_relative:. tagger/tagger.proto
+	buf generate
+	buf generate --template=buf.gen.tag.yaml
+	buf generate --template=buf.gen.debug.yaml --path tagger
 
 test:
 	go test ./...

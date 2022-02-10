@@ -59,7 +59,7 @@ func TestRetag(t *testing.T) {
 	}
 
 	if !bytes.Equal(out, buf.Bytes()) {
-		t.Error("output doesnot match golden file")
+		t.Error("output does not match golden file")
 	}
 }
 
