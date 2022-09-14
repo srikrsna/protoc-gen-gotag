@@ -83,7 +83,7 @@ func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packag
 		var buf strings.Builder
 		m.CheckErr(printer.Fprint(&buf, fs, fn))
 
-		m.OverwriteGeneratorFile(filename, buf.String())
+		m.OverwriteGeneratorFile(gfname, buf.String())
 	}
 
 	return m.Artifacts()
