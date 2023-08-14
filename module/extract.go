@@ -15,12 +15,13 @@ type tagExtractor struct {
 	pgs.DebuggerCommon
 	pgsgo.Context
 
-	tags        map[string]map[string]*structtag.Tags
-	autoAddTags map[string]func(name pgs.Name) pgs.Name
+	tags              map[string]map[string]*structtag.Tags
+	autoAddTags       map[string]func(name pgs.Name) pgs.Name
+	autoAddTagOptions map[string][]string
 }
 
-func newTagExtractor(d pgs.DebuggerCommon, ctx pgsgo.Context, autoTags []string) *tagExtractor {
-	v := &tagExtractor{DebuggerCommon: d, Context: ctx, autoAddTags: map[string]func(name pgs.Name) pgs.Name{}}
+func newTagExtractor(d pgs.DebuggerCommon, ctx pgsgo.Context, autoTags []string, autoTagOptions []string) *tagExtractor {
+	v := &tagExtractor{DebuggerCommon: d, Context: ctx, autoAddTags: map[string]func(name pgs.Name) pgs.Name{}, autoAddTagOptions: map[string][]string{}}
 	v.Visitor = pgs.PassThroughVisitor(v)
 	for _, autoTag := range autoTags {
 		info := strings.Split(autoTag, "-as-")
@@ -44,6 +45,12 @@ func newTagExtractor(d pgs.DebuggerCommon, ctx pgsgo.Context, autoTags []string)
 			}
 		}
 
+	}
+
+	for _, autoTagOption := range autoTagOptions {
+		options := strings.Split(autoTagOption, ":")
+		tagOptions := strings.Split(options[1], "+")
+		v.autoAddTagOptions[strings.TrimSpace(options[0])] = tagOptions
 	}
 	return v
 }
@@ -94,10 +101,15 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 	tags := structtag.Tags{}
 	if len(v.autoAddTags) > 0 {
 		for tag, transform := range v.autoAddTags {
+			var tagOptions []string
+			// Populate tag options only if current struct tag is provided in input "auto" parameter
+			if val, ok := v.autoAddTagOptions[tag]; ok {
+				tagOptions = val
+			}
 			t := structtag.Tag{
 				Key:     tag,
 				Name:    transform(v.Context.Name(f)).String(),
-				Options: nil,
+				Options: tagOptions,
 			}
 			if err := tags.Set(&t); err != nil {
 				v.DebuggerCommon.Fail("Error without tag", err)
