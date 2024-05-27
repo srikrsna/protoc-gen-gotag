@@ -1,3 +1,6 @@
+# Warning
+**The project maintenance and evolution has been embraced by [@ucpr](https://github.com/ucpr), [@mesmerx](https://github.com/mesmerx) and [@Kavuti](https://github.com/Kavuti). This repository will continue to be the reference for the plugin's stable v1 version, at least until a new major stable version will be available in another repository.**
+
 # protoc-gen-gotag (PGGT)
 
 PGGT is a protoc plugin used to add/replace struct tags on generated protobuf messages.
