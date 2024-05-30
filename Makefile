@@ -1,16 +1,20 @@
 LOCAL_PATH = $(shell pwd)
 
-.PHONY: example proto install gen-tag test
+.PHONY: install gen-tag test protobuf gotags genTags
 
-example: proto install
-	protoc -I /usr/local/include \
-	-I ${LOCAL_PATH} \
-	--gotag_out=xxx="graphql+\"-\" bson+\"-\"":. example/example.proto
-
-proto:
+# Generate base protobuf output files.
+protobuf:
 	protoc -I /usr/local/include \
 	-I ${LOCAL_PATH} \
 	--go_out=:. example/example.proto
+
+# Add the gotags to the protobuf output files.
+gotags:
+	protoc -I /usr/local/include \
+	-I ${LOCAL_PATH} \
+	--gotag_out=:. example/example.proto
+
+genTags: protobuf gotags
 
 install:
 	go install .
