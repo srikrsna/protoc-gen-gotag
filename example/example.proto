@@ -17,6 +17,9 @@ message Example {
         string a = 5 [(tagger.tags) = "json:\"A\""];
         int32 b_jk = 6 [(tagger.tags) = "json:\"b_Jk\""];
     }
+    uint32 order = 7 [(tagger.tags) = "bun:\"order\""];
+    uint32 pk = 8 [(tagger.tags) = "bun:\"pk,pk,type:integer,autoincrement\""];
+    string uuid = 9 [(tagger.tags) = "bun:\"uuid,type:uuid,default:uuid_generate_v4()\""];
 }
 
 message SecondMessage {
