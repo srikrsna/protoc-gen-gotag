@@ -26,14 +26,14 @@ type Example struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	WithNewTags     string  `protobuf:"bytes,1,opt,name=with_new_tags,json=withNewTags,proto3" json:"with_new_tags,omitempty"`
-	WithNewMultiple string  `protobuf:"bytes,2,opt,name=with_new_multiple,json=withNewMultiple,proto3" json:"with_new_multiple,omitempty"`
-	ReplaceDefault  *string `protobuf:"bytes,3,opt,name=replace_default,json=replaceDefault,proto3,oneof" json:"replace_default,omitempty"`
+	WithNewTags     string  `protobuf:"bytes,1,opt,name=with_new_tags,json=withNewTags,proto3" json:"with_new_tags,omitempty" graphql:"withNewTags,optional"`
+	WithNewMultiple string  `protobuf:"bytes,2,opt,name=with_new_multiple,json=withNewMultiple,proto3" json:"with_new_multiple,omitempty" graphql:"withNewTags,optional" xml:"multi,omitempty"`
+	ReplaceDefault  *string `protobuf:"bytes,3,opt,name=replace_default,json=replaceDefault,proto3,oneof" json:"replacePrevious"`
 	// Types that are assignable to OneOf:
 	//
 	//	*Example_A
 	//	*Example_BJk
-	OneOf isExample_OneOf `protobuf_oneof:"one_of"`
+	OneOf isExample_OneOf `protobuf_oneof:"one_of" graphql:"withNewTags,optional"`
 }
 
 func (x *Example) Reset() {
@@ -115,11 +115,11 @@ type isExample_OneOf interface {
 }
 
 type Example_A struct {
-	A string `protobuf:"bytes,5,opt,name=a,proto3,oneof"`
+	A string `protobuf:"bytes,5,opt,name=a,proto3,oneof" json:"A"`
 }
 
 type Example_BJk struct {
-	BJk int32 `protobuf:"varint,6,opt,name=b_jk,json=bJk,proto3,oneof"`
+	BJk int32 `protobuf:"varint,6,opt,name=b_jk,json=bJk,proto3,oneof" json:"b_Jk"`
 }
 
 func (*Example_A) isExample_OneOf() {}
@@ -131,9 +131,9 @@ type SecondMessage struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	WithNewTags     string `protobuf:"bytes,1,opt,name=with_new_tags,json=withNewTags,proto3" json:"with_new_tags,omitempty"`
-	WithNewMultiple string `protobuf:"bytes,2,opt,name=with_new_multiple,json=withNewMultiple,proto3" json:"with_new_multiple,omitempty"`
-	ReplaceDefault  string `protobuf:"bytes,3,opt,name=replace_default,json=replaceDefault,proto3" json:"replace_default,omitempty"`
+	WithNewTags     string `protobuf:"bytes,1,opt,name=with_new_tags,json=withNewTags,proto3" json:"with_new_tags,omitempty" graphql:"withNewTags,optional"`
+	WithNewMultiple string `protobuf:"bytes,2,opt,name=with_new_multiple,json=withNewMultiple,proto3" json:"with_new_multiple,omitempty" graphql:"withNewTags,optional" xml:"multi,omitempty"`
+	ReplaceDefault  string `protobuf:"bytes,3,opt,name=replace_default,json=replaceDefault,proto3" json:"replacePrevious"`
 }
 
 func (x *SecondMessage) Reset() {
@@ -194,7 +194,7 @@ type ThirdExample struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	InnerExample *ThirdExample_InnerExample `protobuf:"bytes,1,opt,name=inner_example,json=innerExample,proto3" json:"inner_example,omitempty"`
+	InnerExample *ThirdExample_InnerExample `protobuf:"bytes,1,opt,name=inner_example,json=innerExample,proto3" json:"inner"`
 }
 
 func (x *ThirdExample) Reset() {
@@ -241,8 +241,8 @@ type ThirdExample_InnerExample struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id  string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Yes int32  `protobuf:"varint,2,opt,name=yes,proto3" json:"yes,omitempty"`
+	Id  string `protobuf:"bytes,1,opt,name=id,proto3" json:"yes"`
+	Yes int32  `protobuf:"varint,2,opt,name=yes,proto3" json:"id"`
 }
 
 func (x *ThirdExample_InnerExample) Reset() {
