@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	pgs "github.com/lyft/protoc-gen-star"
+	pgs "github.com/lyft/protoc-gen-star/v2"
 	"github.com/spf13/afero"
 	"github.com/srikrsna/protoc-gen-gotag/module"
 )
