@@ -3,6 +3,7 @@ package module
 import (
 	"go/ast"
 	"go/token"
+	"sort"
 	"strings"
 
 	"github.com/fatih/structtag"
@@ -95,6 +96,7 @@ func (v retag) Visit(n ast.Node) ast.Visitor {
 			return nil
 		}
 
+		sort.Stable(newTags) // sort tags according to keys
 		for _, t := range newTags.Tags() {
 			oldTags.Set(t)
 		}

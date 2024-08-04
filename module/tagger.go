@@ -32,7 +32,6 @@ func (mod) Name() string {
 }
 
 func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Package) []pgs.Artifact {
-
 	xtv := m.Parameters().Str("xxx")
 
 	xtv = strings.Replace(xtv, "+", ":", -1)
