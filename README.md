@@ -71,6 +71,19 @@ Supported transformers:
 | "dot_notation", "dot", "lower_dot_notation", "lower_dot" | Make lower cased dot notation key | someKey -> some.key |
 | "upper_dot", "upper_dot_notation"                        | Make upper cased dot notation key | someKey -> Some.Key | 
 
+## Auto add tag options on field
+
+Automatically add custom tag options to message fields along with tag values.
+NOTE: "auto" parameter also needs to be specified for this particular feature to work
+
+```bash
+    protoc -I /usr/local/include \
+    	-I . \
+    	--gotag_out=auto="form+db-as-camel":. --gotag_opt=suffix="form:required+optional|db:omitempty" example/example.proto
+```
+
+The above command will add two tag options required,optional to form tag and omitempty tag option to db tag.
+
 ## Add tags to XXX* fields
 
 It is very useful to ignore XXX* fields in protobuf generated messages. The go protocol buffer compiler adds ```json:"-"``` tag to all XXX* fields. Additional tags can be added to these fields using the 'xxx' option of PGGT. It can be done like this. All '+' characters will be replaced with ':'.

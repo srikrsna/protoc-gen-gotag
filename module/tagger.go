@@ -45,9 +45,17 @@ func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packag
 		autoTags = strings.Split(autoTag, "+")
 	}
 
+	// To auto add struct tag options
+	// input will be of form eg: suffix="db:omitempty+required|graph:optional"
+	tagOptions := m.Parameters().Str("suffix")
+	var autoTagOptions []string
+	if tagOptions != "" {
+		autoTagOptions = strings.Split(tagOptions, "|")
+	}
+
 	module := m.Parameters().Str("module")
 
-	extractor := newTagExtractor(m, m.Context, autoTags)
+	extractor := newTagExtractor(m, m.Context, autoTags, autoTagOptions)
 
 	for _, f := range targets {
 		tags := extractor.Extract(f)
